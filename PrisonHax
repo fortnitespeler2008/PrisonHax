@@ -1,0 +1,475 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local PrisonLife = Instance.new("ScreenGui")
+local PrisonLifeFrame1 = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local PrisonLifewTitle1 = Instance.new("TextLabel")
+local Border1 = Instance.new("Frame")
+local fly = Instance.new("TextButton")
+local superSpeed = Instance.new("TextButton")
+local superJump = Instance.new("TextButton")
+local PrisonLifeFrame2 = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local Border2 = Instance.new("Frame")
+local Title2 = Instance.new("TextLabel")
+local DestroyDoors = Instance.new("TextButton")
+local DestroyFences = Instance.new("TextButton")
+local Walls = Instance.new("TextButton")
+local Buildings = Instance.new("TextButton")
+local PrisonLifeFrame3 = Instance.new("Frame")
+local UICorner_3 = Instance.new("UICorner")
+local Border3 = Instance.new("Frame")
+local Title3 = Instance.new("TextLabel")
+local SharpStick = Instance.new("TextButton")
+local crudeKnife = Instance.new("TextButton")
+local hammer = Instance.new("TextButton")
+local m9 = Instance.new("TextButton")
+local remington = Instance.new("TextButton")
+local ak47 = Instance.new("TextButton")
+local btools = Instance.new("TextButton")
+local close = Instance.new("TextButton")
+
+--Properties:
+
+PrisonLife.Name = "PrisonLife"
+PrisonLife.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+PrisonLife.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+PrisonLifeFrame1.Name = "PrisonLifeFrame1"
+PrisonLifeFrame1.Parent = PrisonLife
+PrisonLifeFrame1.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PrisonLifeFrame1.Position = UDim2.new(0.0520590506, 0, 0.0225846935, 0)
+PrisonLifeFrame1.Size = UDim2.new(0, 145, 0, 305)
+
+UICorner.Parent = PrisonLifeFrame1
+
+PrisonLifewTitle1.Name = "PrisonLifewTitle1"
+PrisonLifewTitle1.Parent = PrisonLifeFrame1
+PrisonLifewTitle1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+PrisonLifewTitle1.BackgroundTransparency = 1.000
+PrisonLifewTitle1.Position = UDim2.new(0, 0, 0.0196721312, 0)
+PrisonLifewTitle1.Size = UDim2.new(0, 145, 0, 44)
+PrisonLifewTitle1.Font = Enum.Font.GothamBlack
+PrisonLifewTitle1.Text = "Local Player"
+PrisonLifewTitle1.TextColor3 = Color3.fromRGB(255, 255, 255)
+PrisonLifewTitle1.TextSize = 14.000
+
+Border1.Name = "Border1"
+Border1.Parent = PrisonLifeFrame1
+Border1.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Border1.Position = UDim2.new(0, 0, 0.163934425, 0)
+Border1.Size = UDim2.new(0, 145, 0, 8)
+
+fly.Name = "fly"
+fly.Parent = PrisonLifeFrame1
+fly.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+fly.BackgroundTransparency = 1.000
+fly.Position = UDim2.new(0, 0, 0.19016394, 0)
+fly.Size = UDim2.new(0, 145, 0, 30)
+fly.Font = Enum.Font.GothamBlack
+fly.Text = "fly E to unfly"
+fly.TextColor3 = Color3.fromRGB(255, 255, 255)
+fly.TextScaled = true
+fly.TextSize = 14.000
+fly.TextWrapped = true
+fly.MouseButton1Down:connect(function()
+	repeat wait()
+	until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
+	local mouse = game.Players.LocalPlayer:GetMouse()
+	repeat wait() until mouse
+	local plr = game.Players.LocalPlayer
+	local torso = plr.Character.Torso
+	local flying = true
+	local deb = true
+	local ctrl = {f = 0, b = 0, l = 0, r = 0}
+	local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+	local maxspeed = 50
+	local speed = 0
+
+	function Fly()
+		local bg = Instance.new("BodyGyro", torso)
+		bg.P = 9e4
+		bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+		bg.cframe = torso.CFrame
+		local bv = Instance.new("BodyVelocity", torso)
+		bv.velocity = Vector3.new(0,0.1,0)
+		bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+		repeat wait()
+			plr.Character.Humanoid.PlatformStand = true
+			if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+				speed = speed+.5+(speed/maxspeed)
+				if speed > maxspeed then
+					speed = maxspeed
+				end
+			elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+				speed = speed-1
+				if speed < 0 then
+					speed = 0
+				end
+			end
+			if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+				bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+				lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+			elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+				bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+			else
+				bv.velocity = Vector3.new(0,0.1,0)
+			end
+			bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+		until not flying
+		ctrl = {f = 0, b = 0, l = 0, r = 0}
+		lastctrl = {f = 0, b = 0, l = 0, r = 0}
+		speed = 0
+		bg:Destroy()
+		bv:Destroy()
+		plr.Character.Humanoid.PlatformStand = false
+	end
+	mouse.KeyDown:connect(function(key)
+		if key:lower() == "e" then
+			if flying then flying = false
+			else
+				flying = true
+				Fly()
+			end
+		elseif key:lower() == "w" then
+			ctrl.f = 1
+		elseif key:lower() == "s" then
+			ctrl.b = -1
+		elseif key:lower() == "a" then
+			ctrl.l = -1
+		elseif key:lower() == "d" then
+			ctrl.r = 1
+		end
+	end)
+	mouse.KeyUp:connect(function(key)
+		if key:lower() == "w" then
+			ctrl.f = 0
+		elseif key:lower() == "s" then
+			ctrl.b = 0
+		elseif key:lower() == "a" then
+			ctrl.l = 0
+		elseif key:lower() == "d" then
+			ctrl.r = 0
+		end
+	end)
+	Fly()
+end)
+
+superSpeed.Name = "superSpeed"
+superSpeed.Parent = PrisonLifeFrame1
+superSpeed.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+superSpeed.BackgroundTransparency = 1.000
+superSpeed.Position = UDim2.new(0, 0, 0.340983629, 0)
+superSpeed.Size = UDim2.new(0, 145, 0, 30)
+superSpeed.Font = Enum.Font.GothamBlack
+superSpeed.Text = "high walkspeed"
+superSpeed.TextColor3 = Color3.fromRGB(255, 255, 255)
+superSpeed.TextScaled = true
+superSpeed.TextSize = 14.000
+superSpeed.TextWrapped = true
+superSpeed.MouseButton1Down:connect(function()
+	player.Character.Humanoid.WalkSpeed = 100
+end)
+
+superJump.Name = "superJump"
+superJump.Parent = PrisonLifeFrame1
+superJump.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+superJump.BackgroundTransparency = 1.000
+superJump.Position = UDim2.new(0, 0, 0.491803288, 0)
+superJump.Size = UDim2.new(0, 145, 0, 30)
+superJump.Font = Enum.Font.GothamBlack
+superJump.Text = "high jump power"
+superJump.TextColor3 = Color3.fromRGB(255, 255, 255)
+superJump.TextScaled = true
+superJump.TextSize = 14.000
+superJump.TextWrapped = true
+superJump.MouseButton1Down:connect(function()
+	player.Character.Humanoid.JumpPower = 150
+end)
+
+PrisonLifeFrame2.Name = "PrisonLifeFrame2"
+PrisonLifeFrame2.Parent = PrisonLife
+PrisonLifeFrame2.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PrisonLifeFrame2.Position = UDim2.new(0.22299923, 0, 0.0225846935, 0)
+PrisonLifeFrame2.Size = UDim2.new(0, 149, 0, 305)
+
+UICorner_2.Parent = PrisonLifeFrame2
+
+Border2.Name = "Border2"
+Border2.Parent = PrisonLifeFrame2
+Border2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Border2.Position = UDim2.new(0, 0, 0.16355063, 0)
+Border2.Size = UDim2.new(0, 149, 0, 8)
+
+Title2.Name = "Title2"
+Title2.Parent = PrisonLifeFrame2
+Title2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title2.BackgroundTransparency = 1.000
+Title2.Position = UDim2.new(0, 0, 0.0196721312, 0)
+Title2.Size = UDim2.new(0, 149, 0, 44)
+Title2.Font = Enum.Font.GothamBlack
+Title2.Text = "destroy"
+Title2.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title2.TextSize = 14.000
+Title2.TextWrapped = true
+
+DestroyDoors.Name = "DestroyDoors"
+DestroyDoors.Parent = PrisonLifeFrame2
+DestroyDoors.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+DestroyDoors.BackgroundTransparency = 1.000
+DestroyDoors.Position = UDim2.new(0, 0, 0.229508191, 0)
+DestroyDoors.Size = UDim2.new(0, 149, 0, 39)
+DestroyDoors.Font = Enum.Font.GothamBlack
+DestroyDoors.Text = "destroy all doors"
+DestroyDoors.TextColor3 = Color3.fromRGB(255, 255, 255)
+DestroyDoors.TextScaled = true
+DestroyDoors.TextSize = 14.000
+DestroyDoors.TextWrapped = true
+DestroyDoors.MouseButton1Down:connect(function()
+	game.Workspace.Doors:Destroy()
+end)
+
+DestroyFences.Name = "DestroyFences"
+DestroyFences.Parent = PrisonLifeFrame2
+DestroyFences.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+DestroyFences.BackgroundTransparency = 1.000
+DestroyFences.Position = UDim2.new(0, 0, 0.406557351, 0)
+DestroyFences.Size = UDim2.new(0, 149, 0, 39)
+DestroyFences.Font = Enum.Font.GothamBlack
+DestroyFences.Text = "destroy fences"
+DestroyFences.TextColor3 = Color3.fromRGB(255, 255, 255)
+DestroyFences.TextScaled = true
+DestroyFences.TextSize = 14.000
+DestroyFences.TextWrapped = true
+DestroyFences.MouseButton1Down:connect(function()
+	game.Workspace.Prison_Fences:Destroy()
+end)
+
+Walls.Name = "Walls"
+Walls.Parent = PrisonLifeFrame2
+Walls.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Walls.BackgroundTransparency = 1.000
+Walls.Position = UDim2.new(0, 0, 0.570491791, 0)
+Walls.Size = UDim2.new(0, 149, 0, 39)
+Walls.Font = Enum.Font.GothamBlack
+Walls.Text = "destroy prison walls"
+Walls.TextColor3 = Color3.fromRGB(255, 255, 255)
+Walls.TextScaled = true
+Walls.TextSize = 14.000
+Walls.TextWrapped = true
+Walls.MouseButton1Down:connect(function()
+	game.Workspace.Prison_OuterWall:Destroy()
+end)
+
+Buildings.Name = "Buildings"
+Buildings.Parent = PrisonLifeFrame2
+Buildings.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Buildings.BackgroundTransparency = 1.000
+Buildings.Position = UDim2.new(0, 0, 0.852459013, 0)
+Buildings.Size = UDim2.new(0, 149, 0, 39)
+Buildings.Font = Enum.Font.GothamBlack
+Buildings.Text = "destroy city buildings"
+Buildings.TextColor3 = Color3.fromRGB(255, 255, 255)
+Buildings.TextScaled = true
+Buildings.TextSize = 14.000
+Buildings.TextWrapped = true
+Buildings.MouseButton1Down:connect(function()
+	game.Workspace.City_buildings:Destroy()
+end)
+
+PrisonLifeFrame3.Name = "PrisonLifeFrame3"
+PrisonLifeFrame3.Parent = PrisonLife
+PrisonLifeFrame3.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PrisonLifeFrame3.Position = UDim2.new(0.393939406, 0, 0.0225846935, 0)
+PrisonLifeFrame3.Size = UDim2.new(0, 149, 0, 452)
+
+UICorner_3.Parent = PrisonLifeFrame3
+
+Border3.Name = "Border3"
+Border3.Parent = PrisonLifeFrame3
+Border3.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Border3.Position = UDim2.new(0, 0, 0.16355063, 0)
+Border3.Size = UDim2.new(0, 149, 0, 8)
+
+Title3.Name = "Title3"
+Title3.Parent = PrisonLifeFrame3
+Title3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title3.BackgroundTransparency = 1.000
+Title3.Position = UDim2.new(0, 0, 0.0196721312, 0)
+Title3.Size = UDim2.new(0, 149, 0, 43)
+Title3.Font = Enum.Font.GothamBlack
+Title3.Text = "backpack"
+Title3.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title3.TextSize = 14.000
+
+SharpStick.Name = "SharpStick"
+SharpStick.Parent = PrisonLifeFrame3
+SharpStick.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SharpStick.BackgroundTransparency = 1.000
+SharpStick.Position = UDim2.new(0, 0, 0.186885253, 0)
+SharpStick.Size = UDim2.new(0, 149, 0, 50)
+SharpStick.Font = Enum.Font.GothamBlack
+SharpStick.Text = "get sharpened stick"
+SharpStick.TextColor3 = Color3.fromRGB(255, 255, 255)
+SharpStick.TextScaled = true
+SharpStick.TextSize = 14.000
+SharpStick.TextWrapped = true
+SharpStick.MouseButton1Down:connect(function()
+	game.ReplicatedStorage.Tools["Sharpened stick"]:Clone().Parent = player.Backpack
+end)
+
+crudeKnife.Name = "crudeKnife"
+crudeKnife.Parent = PrisonLifeFrame3
+crudeKnife.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+crudeKnife.BackgroundTransparency = 1.000
+crudeKnife.Position = UDim2.new(0, 0, 0.310779065, 0)
+crudeKnife.Size = UDim2.new(0, 149, 0, 50)
+crudeKnife.Font = Enum.Font.GothamBlack
+crudeKnife.Text = "get crude knife"
+crudeKnife.TextColor3 = Color3.fromRGB(255, 255, 255)
+crudeKnife.TextScaled = true
+crudeKnife.TextSize = 14.000
+crudeKnife.TextWrapped = true
+crudeKnife.MouseButton1Down:connect(function()
+	local weapons = {"Crude Knife"}
+	for i, v in pairs(game.Workspace["Prison_ITEMS"].giver:getChildren()) do
+		for j, k in pairs(weapons) do
+			if v.Name == k then
+				v:MoveTo(game.Players.LocalPlayer.Character.Torso.Position)
+			end
+		end
+	end
+end)
+
+hammer.Name = "hammer"
+hammer.Parent = PrisonLifeFrame3
+hammer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+hammer.BackgroundTransparency = 1.000
+hammer.Position = UDim2.new(0, 0, 0.443522424, 0)
+hammer.Size = UDim2.new(0, 149, 0, 50)
+hammer.Font = Enum.Font.GothamBlack
+hammer.Text = "get hammer"
+hammer.TextColor3 = Color3.fromRGB(255, 255, 255)
+hammer.TextScaled = true
+hammer.TextSize = 14.000
+hammer.TextWrapped = true
+hammer.MouseButton1Down:connect(function()
+	local weapons = {"Hammer"}
+	for i, v in pairs(game.Workspace["Prison_ITEMS"].giver:getChildren()) do
+		for j, k in pairs(weapons) do
+			if v.Name == k then
+				v:MoveTo(game.Players.LocalPlayer.Character.Torso.Position)
+			end
+		end
+	end
+end)
+
+m9.Name = "m9"
+m9.Parent = PrisonLifeFrame3
+m9.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+m9.BackgroundTransparency = 1.000
+m9.Position = UDim2.new(0, 0, 0.554141879, 0)
+m9.Size = UDim2.new(0, 149, 0, 50)
+m9.Font = Enum.Font.GothamBlack
+m9.Text = "get m9"
+m9.TextColor3 = Color3.fromRGB(255, 255, 255)
+m9.TextScaled = true
+m9.TextSize = 14.000
+m9.TextWrapped = true
+m9.MouseButton1Down:connect(function()
+	local weapons = {"M9"}
+	for i, v in pairs(game.Workspace["Prison_ITEMS"].giver:getChildren()) do
+		for j, k in pairs(weapons) do
+			if v.Name == k then
+				v:MoveTo(game.Players.LocalPlayer.Character.Torso.Position)
+			end
+		end
+	end
+end)
+
+remington.Name = "remington"
+remington.Parent = PrisonLifeFrame3
+remington.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+remington.BackgroundTransparency = 1.000
+remington.Position = UDim2.new(0, 0, 0.660336554, 0)
+remington.Size = UDim2.new(0, 149, 0, 50)
+remington.Font = Enum.Font.GothamBlack
+remington.Text = "get remington"
+remington.TextColor3 = Color3.fromRGB(255, 255, 255)
+remington.TextScaled = true
+remington.TextSize = 14.000
+remington.TextWrapped = true
+remington.MouseButton1Down:connect(function()
+	local weapons = {"Remington 870"}
+	for i, v in pairs(game.Workspace["Prison_ITEMS"].giver:getChildren()) do
+		for j, k in pairs(weapons) do
+			if v.Name == k then
+				v:MoveTo(game.Players.LocalPlayer.Character.Torso.Position)
+			end
+		end
+	end
+end)
+
+ak47.Name = "ak47"
+ak47.Parent = PrisonLifeFrame3
+ak47.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ak47.BackgroundTransparency = 1.000
+ak47.Position = UDim2.new(0, 0, 0.786442757, 0)
+ak47.Size = UDim2.new(0, 149, 0, 50)
+ak47.Font = Enum.Font.GothamBlack
+ak47.Text = "get ak47"
+ak47.TextColor3 = Color3.fromRGB(255, 255, 255)
+ak47.TextScaled = true
+ak47.TextSize = 14.000
+ak47.TextWrapped = true
+ak47.MouseButton1Down:connect(function()
+	local weapons = {"AK-47"}
+	for i, v in pairs(game.Workspace["Prison_ITEMS"].giver:getChildren()) do
+		for j, k in pairs(weapons) do
+			if v.Name == k then
+				v:MoveTo(game.Players.LocalPlayer.Character.Torso.Position)
+			end
+		end
+	end
+end)
+
+btools.Name = "btools"
+btools.Parent = PrisonLifeFrame3
+btools.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+btools.BackgroundTransparency = 1.000
+btools.Position = UDim2.new(0, 0, 0.897062242, 0)
+btools.Size = UDim2.new(0, 149, 0, 36)
+btools.Font = Enum.Font.GothamBlack
+btools.Text = "btools"
+btools.TextColor3 = Color3.fromRGB(255, 255, 255)
+btools.TextScaled = true
+btools.TextSize = 14.000
+btools.TextWrapped = true
+btools.MouseButton1Click:connect(function()
+	wait(0.1)
+	local tool1 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack)
+	local tool2 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack)
+	local tool3 = Instance.new("HopperBin",game.Players.LocalPlayer.Backpack)
+	tool1.BinType = "Clone"
+	tool2.BinType = "Hammer"
+	tool3.BinType = "Grab"
+end)
+
+close.Name = "close"
+close.Parent = PrisonLife
+close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+close.BackgroundTransparency = 1.000
+close.Position = UDim2.new(0.896658897, 0, 0.05144291, 0)
+close.Size = UDim2.new(0, 84, 0, 72)
+close.Font = Enum.Font.GothamBlack
+close.Text = "X"
+close.TextColor3 = Color3.fromRGB(255, 0, 0)
+close.TextScaled = true
+close.TextSize = 14.000
+close.TextWrapped = true
+close.MouseButton1Down:connect(function()
+	PrisonLife:Destroy()
+end)
